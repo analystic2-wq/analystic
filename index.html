@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analystic — Market Analyzer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="logo">
+            <span class="logo-mark">A</span>
+            ANALY<span>STIC</span>
+        </div>
+
+        <div class="login-subtitle">
+            MARKET ANALYSIS SYSTEM
+        </div>
+
+
+        <div class="login-content">
+
+            <h1>
+                Bienvenido
+            </h1>
+
+            <p>
+              
+                <b>Introduce tu codigo para acceder</b>
+            <p>
+                <p>
+                Adquiere tu codigo de acceso
+                <a href="https://wa.link/0l24fo" target="_blank">aquí<a>
+            </p>
+
+
+            <div class="input-group">
+
+                <label for="accessCode">
+                    ACCESS CODE
+                </label>
+
+                <input
+                    type="password"
+                    id="accessCode"
+                    placeholder="00-00-00"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button
+                id="loginButton"
+                type="button"
+            >
+                ENTER ANALYSTIC
+            </button>
+
+
+            <div
+                id="loginMessage"
+                class="login-message"
+            ></div>
+
+        </div>
+
+
+        <div class="login-footer">
+
+            <span>
+                SECURE ACCESS
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                ANALYSTIC
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- LOADING -->
+
+<div id="loadingScreen" class="loading-screen hidden">
+    <div class="spinner"></div>
+</div>
+
+
+<div id="mainApp" class="app hidden">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="logo">
+            <span class="logo-mark">A</span>
+            ANALY<span>STIC</span>
+        </div>
+
+        <div class="header-right">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span id="systemStatus">SYSTEM ONLINE</span>
+            </div>
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+                type="button"
+            >
+                EXIT
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="eyebrow">
+                MARKET PROBABILITY ANALYZER
+            </div>
+
+            <h1>
+                Analyze the market.<br>
+                <span>Make your decision.</span>
+            </h1>
+
+            <p>
+                Analiza los ticks del mercado en tiempo real
+                y genera una estimación estadística basada
+                en los datos observados.
+            </p>
+
+        </section>
+
+
+        <!-- CONTROLES -->
+        <section class="control-panel">
+
+            <div class="field">
+
+                <label for="market">
+                    MARKET
+                </label>
+
+                <select id="market">
+
+                    <optgroup label="1 segundo">
+
+                        <option value="vol10">
+                            Volatility 10 (1s)
+                        </option>
+
+                        <option value="vol25">
+                            Volatility 25 (1s)
+                        </option>
+
+                        <option value="vol50">
+                            Volatility 50 (1s)
+                        </option>
+
+                        <option value="vol75">
+                            Volatility 75 (1s)
+                        </option>
+
+                        <option value="vol100">
+                            Volatility 100 (1s)
+                        </option>
+
+                    </optgroup>
+
+                    <optgroup label="Estándar">
+
+                        <option value="vol10std">
+                            Volatility 10
+                        </option>
+
+                        <option value="vol25std">
+                            Volatility 25
+                        </option>
+
+                        <option value="vol50std">
+                            Volatility 50
+                        </option>
+
+                        <option value="vol75std">
+                            Volatility 75
+                        </option>
+
+                        <option value="vol100std">
+                            Volatility 100
+                        </option>
+
+                    </optgroup>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="strategy">
+                    STRATEGY
+                </label>
+
+                <select id="strategy">
+
+                    <option value="matches">
+                        Matches / Differs
+                    </option>
+
+                    <option value="evenodd">
+                        Even / Odd
+                    </option>
+
+                    <option value="overunder">
+                        Over / Under
+                    </option>
+
+                    <option value="risefall">
+                        Rise / Fall
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                id="startBtn"
+                class="start-button"
+                type="button"
+            >
+                START ANALYSIS
+            </button>
+
+        </section>
+
+
+        <!-- BARRERA (SOLO OVER/UNDER) -->
+        <section id="barrierField" class="barrier-card hidden">
+
+            <div class="field">
+
+                <label>
+                    RECOMMENDED BARRIER
+                </label>
+
+                <div class="barrier-recommend">
+                    <strong id="barrierRecommendDigit">—</strong>
+                    <span id="barrierRecommendSide">Waiting for data...</span>
+                </div>
+
+            </div>
+
+            <p class="barrier-hint">
+                El analizador estudia las cotizaciones en tiempo real y determina automáticamente qué barrera 
+                tiene la mayor desviación estadística. La recomendación puede ser «Over» si el último dígito 
+                supera la barrera, o «Under» si queda por debajo. Los empates no generan resultado.
+
+            </p>
+
+        </section>
+
+
+        <!-- TICKER DE DÍGITOS -->
+        <section class="ticker-card">
+
+            <div class="ticker-top">
+
+                <div class="section-title">
+                    LIVE TICKS
+                </div>
+
+                <div class="duration-recommend">
+                    <span>RECOMMENDATION</span>
+                    <strong id="durationRecommend">—</strong>
+                </div>
+
+            </div>
+
+            <div id="digitTicker" class="ticker"></div>
+
+        </section>
+
+
+        <!-- LIVE MARKET -->
+        <section class="analysis-card">
+
+            <div class="analysis-top">
+
+                <div>
+
+                    <div class="section-title">
+                        LIVE MARKET
+                    </div>
+
+                    <h2 id="marketTitle">
+                        Volatility 10 (1s)
+                    </h2>
+
+                    <div class="strategy-pill">
+                        Strategy: <strong id="strategyDisplay">—</strong>
+                    </div>
+
+                </div>
+
+                <div
+                    id="analysisStatus"
+                    class="status-badge"
+                >
+                    READY
+                </div>
+
+            </div>
+
+
+            <!-- DÍGITO EN GRANDE -->
+            <div class="digit-hero">
+                <span id="lastDigit">—</span>
+            </div>
+
+
+            <!-- GRÁFICA -->
+            <div class="chart-container">
+
+                <div class="chart-grid"></div>
+
+                <canvas id="marketChart"></canvas>
+
+            </div>
+
+
+            <!-- ESTADÍSTICAS -->
+            <div class="stats-grid">
+
+                <div class="stat">
+
+                    <span>
+                        TICKS
+                    </span>
+
+                    <strong id="tickDisplay">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        TIEMPO
+                    </span>
+
+                    <strong id="timeDisplay">
+                        00:00
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        ESTADO
+                    </span>
+
+                    <strong id="statusDisplay">
+                        READY
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        MERCADO
+                    </span>
+
+                    <strong id="marketDisplay">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DISTRIBUCIÓN DE DÍGITOS -->
+        <section
+            id="digitSection"
+            class="digit-card"
+        >
+
+            <div class="section-title">
+                DIGIT DISTRIBUTION
+            </div>
+
+            <h2>
+                Market digits
+            </h2>
+
+            <p>
+                Distribución estadística de los últimos
+                dígitos recibidos.
+            </p>
+
+            <div
+                id="digitBars"
+                class="digit-bars"
+            >
+                <!-- JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- RESULTADO FINAL -->
+        <section
+            id="resultSection"
+            class="result-card hidden"
+        >
+
+            <div class="result-header">
+
+                <div>
+
+                    <div class="section-title">
+                        FINAL ANALYSIS
+                    </div>
+
+                    <h2>
+                        Analysis Result
+                    </h2>
+
+                </div>
+
+                <div class="final-badge">
+                    FINAL SIGNAL
+                </div>
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="recommendation">
+
+                    <span>
+                        RECOMMENDATION
+                    </span>
+
+                    <h3 id="recommendation">
+                        —
+                    </h3>
+
+                </div>
+
+
+                <div class="percentage">
+
+                    <span>
+                        OBSERVED PERCENTAGE
+                    </span>
+
+                    <strong id="percentage">
+                        0%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-details">
+
+                <div>
+
+                    <span>
+                        TICKS ANALYZED
+                    </span>
+
+                    <strong id="resultTicks">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        CONFIDENCE
+                    </span>
+
+                    <strong id="confidence">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        MARKET
+                    </span>
+
+                    <strong id="resultMarket">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="warning">
+
+                <strong>
+                    STATISTICAL ESTIMATE
+                </strong>
+
+                <p>
+                    Este resultado representa una estimación
+                    estadística basada en los datos observados
+                    durante el análisis. 
+                </p>
+
+            </div>
+
+
+            <button
+                id="newAnalysis"
+                class="new-button"
+                type="button"
+            >
+                NEW ANALYSIS
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div>
+            ANALYSTIC
+        </div>
+
+        <p>
+            Real-time market analysis tool
+            • Manual execution only
+        </p>
+
+    </footer>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script src="script.js"></script>
+
+</body>
+
+</html>
